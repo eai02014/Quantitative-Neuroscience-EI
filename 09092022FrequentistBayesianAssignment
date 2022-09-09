@@ -1,0 +1,48 @@
+#QNC HW 09.09.2022
+
+##Exercise 1: If someone gets a positive test, is it “statistically significant” at the p < 0.05 level? Why or why not? 
+
+H0 = person is uninfected
+HA = person is infected 
+
+P value indicates the probability of observing a certain distribution of data given that the null hypothesis is true. Specifically here, a positive test would be statistically significant at the p < 0.05 level if probability that a person tests positive given they are uninfected is under 5%. 
+
+In this scenario, P(positive | uninfected) = false positive rate = 0.05. This number is not less than 0.05, and therefore a positive test is not “statistically significant” if alpha is set to 0.05. 
+
+##Exercise 2: What is the probability that if someone gets a positive test, that person is infected?
+
+P(infected | positive) = P(TP) / (P(TP) + P(FP) {=P(positive)})
+
+This probability varies based on overall infection rate (probability hypothesis is true without any data). 
+
+Using the following MATLAB code: 
+...
+%Baseline parameters (FNR = 0, not considered here)
+N = 1000;
+FPR = 0.05;
+
+%Compute P(infected|positive)
+InfectionRate = linspace(0,1,11)';
+TP = InfectionRate*N;
+FP = N*(1-InfectionRate)*FPR;
+TotalP = TP + FP;
+PinfectedgivenP = TP./TotalP;
+FinalArray = [InfectionRate PinfectedgivenP];
+...
+
+It is possible to generate the following array showing P(Infected|Positive) at various infection rates. 
+
+...
+InfectionRate P(Infected|Positive)
+0	0
+0.100000000000000	0.689655172413793
+0.200000000000000	0.833333333333333
+0.300000000000000	0.895522388059702
+0.400000000000000	0.930232558139535
+0.500000000000000	0.952380952380952
+0.600000000000000	0.967741935483871
+0.700000000000000	0.979020979020979
+0.800000000000000	0.987654320987654
+0.900000000000000	0.994475138121547
+1	1
+...
