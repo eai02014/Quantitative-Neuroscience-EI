@@ -5,9 +5,17 @@
 H0 = person is uninfected
 HA = person is infected 
 
-P value indicates the probability of observing a certain distribution of data given that the null hypothesis is true. Specifically here, a positive test would be statistically significant at the p < 0.05 level if probability that a person tests positive given they are uninfected is under 5%. 
+P value indicates the probability of observing a certain distribution of data given that the null hypothesis is true. 
 
-In this scenario, P(positive | uninfected) = false positive rate = 0.05. This number is not less than 0.05, and therefore a positive test is not “statistically significant” if alpha is set to 0.05. 
+Specifically here, a positive test would be statistically significant at the p < 0.05 level if probability that a person tests positive given they are uninfected is under 5%. 
+
+In this scenario, P(positive | uninfected) = false positive rate = 0.05. 
+
+This number is not less than 0.05, and therefore a positive test is not “statistically significant” if alpha is set to 0.05. 
+
+
+
+
 
 ##Exercise 2: What is the probability that if someone gets a positive test, that person is infected?
 
@@ -16,6 +24,8 @@ P(infected | positive) = P(TP) / (P(TP) + P(FP) {=P(positive)})
 This probability varies based on overall infection rate (probability hypothesis is true without any data). 
 
 Using the following MATLAB code: 
+
+
 ...
 %Baseline parameters (FNR = 0, not considered here)
 N = 1000;
