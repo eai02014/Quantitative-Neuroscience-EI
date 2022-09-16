@@ -22,8 +22,9 @@ xline(-1.2,'--',{'Threshold'});
 hold on
 
 %Add theoretical distribution
-x = [-5:.001:0];
+x = -5:.001:0;
 y = normpdf(x,-1.6,0.25);
 y = y*170;
 plot(x,y,'r-','LineWidth',2);
+hold off
 
