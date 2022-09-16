@@ -1,0 +1,29 @@
+Based on panel G from Figure 2 of the following paper: https://www.jneurosci.org/content/jneuro/31/24/8699.full.pdf
+
+%Generate normally distributed data
+Data = normrnd(-1.6,0.25,4000,1);
+
+%Delete data above threshold in paper
+DeleteRows = Data > -1.2;
+Data(DeleteRows) = [];
+
+%Plot data
+%Define X axis and bin number
+Edges = linspace (-5, 0, 120);
+
+%Generate histogram
+histogram(Data,'BinEdges',Edges);
+xlim([-5,0]);
+xlabel('Amplitude of spike peak relative to threshold');
+ylabel('Number of Spikes');
+
+%Add threshold line
+xline(-1.2,'--',{'Threshold'});
+hold on
+
+%Add theoretical distribution
+x = [-5:.001:0];
+y = normpdf(x,-1.6,0.25);
+y = y*170;
+plot(x,y,'r-','LineWidth',2);
+
