@@ -16,9 +16,9 @@ In this case, use SEM as in tutorial and multiply by Z-score of 95% CI ([-1.96, 
 Using the code below: 
 
 ```
-fprintf('In condition of large N and known SD:\n')
+fprintf('In condition of large N and/or known SD:\n')
 for n = [5,10,20,40,80,160,1000] %loop through all values of n we are interested in
-    SEM = SD/sqrt(n); %compute SEM using SD (sigma), rather than sample SD, given that population SD is available
+    SEM = SD/sqrt(n); %compute SEM using SD (sigma), rather than sample SD, given that population SD is known
     CI951Lower = Mean - 1.96*SEM;
     CI951Upper = Mean + 1.96*SEM;
     fprintf('n = %d ',n)
@@ -31,7 +31,7 @@ end
 This yields the following output: 
 
 ```
-In condition of large N and known SD:
+In condition of large N and/or known SD:
 n = 5 95% CI [8.246923, 11.753077]
 n = 10 95% CI [8.760387, 11.239613]
 n = 20 95% CI [9.123461, 10.876539]
