@@ -128,6 +128,7 @@ for n = [5,10,20,40,80,160,1000]
 end
 ```
 
+The output of this code is given below, with sample mean to frame the credible intervals. 
 
 ```
 Bayesian Credible Intervals:
