@@ -107,4 +107,35 @@ n=1000 Sample Mean = 9.980164 95%-CI [9.854922,10.114698] with width 0.259777.
 
 ### 4. Bayesian credible intervals. 
 
+As outlined in the tutorial, "posterior distribution for given X is itself a Gaussian with a mean value of sample mean and a standard deviation of SEM; in other words, a distribution defined by the sample mean and the standard error of the mean! In this case, the credible interval is computed in exactly the same way as the confidence interval computed analytically from the sample mean and standard error of the mean described above."
 
+Confidence intervals based on this philosophy are computed below:
+
+```
+Mean = 10;
+SD = 2;
+fprintf('Bayesian Credible Intervals:\n')
+for n = [5,10,20,40,80,160,1000]
+    Sample = normrnd(Mean,SD,n,1); %compute "random" sample of size n from normal distribution based on population mean and SD
+    SampleMean = mean(Sample);
+    SEM = SD/sqrt(n); %compute SEM based on population SD
+    CI951Lower = SampleMean - 1.96*SEM; %compute 95% credible interval bounds based on sample mean and SEM
+    CI951Upper = SampleMean + 1.96*SEM;
+    fprintf('n = %d ',n)
+    fprintf('Sample Mean = %f ',SampleMean)
+    fprintf('95%% Credible Interval [%f, ',CI951Lower)
+    fprintf('%f]\n',CI951Upper)
+end
+```
+
+
+```
+Bayesian Credible Intervals:
+n = 5 Sample Mean = 10.662684 95% Credible Interval [8.909606, 12.415761]
+n = 10 Sample Mean = 9.876193 95% Credible Interval [8.636580, 11.115806]
+n = 20 Sample Mean = 9.938896 95% Credible Interval [9.062357, 10.815434]
+n = 40 Sample Mean = 10.391748 95% Credible Interval [9.771942, 11.011555]
+n = 80 Sample Mean = 10.144926 95% Credible Interval [9.706656, 10.583195]
+n = 160 Sample Mean = 10.189630 95% Credible Interval [9.879727, 10.499533]
+n = 1000 Sample Mean = 9.992429 95% Credible Interval [9.868468, 10.116391]
+```
