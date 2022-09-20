@@ -82,7 +82,7 @@ Mean = 10;
 SD = 2;
 fprintf('Using bootstrapping:\n')
 for n = [5,10,20,40,80,160,1000]
-    Sample = normrnd(Mean,SD,n,1); %compute "random" sample of size n from normal distribution based on population mean and SD
+    Sample = normrnd(Mean,SD,n,1); %compute "random" sample of size n x 1 from normal distribution based on population mean and SD
     CI95 = bootci(2000,{@mean,Sample}); %2000 bootstrap samples, based on sample and sample mean
     fprintf('n=%d ',n)
     fprintf('Sample Mean = %f ',mean(Sample))
