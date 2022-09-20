@@ -75,5 +75,9 @@ n = 1000 95% CI [9.875891, 10.124109]
 
 ### 3. Bootstrapped confidence intervals.
 
+To compute bootstrapped confidence intervals, I need to be able to resample n samples from a sample of size n. I will generate 7 samples, one for each of the above ns (5, 10, 20, 40, 80, 160, 1000). I will then compute the bootstrapped CI of each sample by using 2000 bootstrap samples. 
+
+
+
 ### 4. Bayesian credible intervals. 
 
