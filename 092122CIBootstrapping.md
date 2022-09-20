@@ -77,7 +77,34 @@ n = 1000 95% CI [9.875891, 10.124109]
 
 To compute bootstrapped confidence intervals, I need to be able to resample n samples from a sample of size n. I will generate 7 samples, one for each of the above ns (5, 10, 20, 40, 80, 160, 1000). I will then compute the bootstrapped CI of each sample by using 2000 bootstrap samples. 
 
+```
+Mean = 10;
+SD = 2;
+fprintf('Using bootstrapping:\n')
+for n = [5,10,20,40,80,160,1000]
+    Sample = normrnd(Mean,SD,n,1); %compute "random" sample of size n from normal distribution based on population mean and SD
+    CI95 = bootci(2000,{@mean,Sample}); %2000 bootstrap samples, based on sample and sample mean
+    fprintf('n=%d ',n)
+    fprintf('Sample Mean = %f ',mean(Sample))
+    fprintf('95%%-CI [%f,%f]',CI95)
+    fprintf(' with width %f.\n',(CI95(2,1) - CI95(1,1)))
+end
+```
+
+Given that each sample MATLAB generates will have a different mean, I am printing the resulting confidence intervals with the sample mean, as well as confidence interval width to illustrate narrowing of confidence intervals with increasing sample size:
+
+```
+Using bootstrapping:
+n=5 Sample Mean = 10.551776 95%-CI [8.840440,11.607473] with width 2.767033.
+n=10 Sample Mean = 10.346831 95%-CI [9.109878,11.515853] with width 2.405974.
+n=20 Sample Mean = 9.816334 95%-CI [8.814535,10.618014] with width 1.803479.
+n=40 Sample Mean = 10.157212 95%-CI [9.309765,10.993551] with width 1.683786.
+n=80 Sample Mean = 10.030831 95%-CI [9.626251,10.439931] with width 0.813680.
+n=160 Sample Mean = 10.201785 95%-CI [9.917860,10.469017] with width 0.551157.
+n=1000 Sample Mean = 9.980164 95%-CI [9.854922,10.114698] with width 0.259777.
+```
 
 
 ### 4. Bayesian credible intervals. 
+
 
