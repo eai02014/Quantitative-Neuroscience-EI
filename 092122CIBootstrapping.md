@@ -44,6 +44,35 @@ n = 1000 95% CI [9.876039, 10.123961]
 
 ### 2. The simple, analytic approach with small *n* and unknown population standard deviation.
 
+To use student t distribution, t value must be drawn from student t table for given number of df = n - 1 and probabilities p = 0.025 and 0.975. These t values are multiplied by SEM and added to mean to give two-tailed 95% confidence interval. This process is outlined in the code below: 
+
+```
+fprintf('Using the student t distribution:\n')
+for n = [5,10,20,40,80,160,1000]
+    SEM = SD/sqrt(n);
+    df = n - 1; %compute df = n-1
+    CI951Lower = Mean + tinv(0.025,df)*SEM; %call value in t table for probability 0.025 and given df for a specific n, multiply by SEM and add to table (result at this probability will be negative so equivalent to subtracting)
+    CI951Upper = Mean + tinv(0.975,df)*SEM; %call value in t table for probability 0.975 and given df for a specific n
+    fprintf('n = %d ',n)
+    fprintf('95%% CI [%f, ',CI951Lower)
+    fprintf('%f]\n',CI951Upper)
+end
+```
+
+This yields the following result, which notably closely approximates the values obtained above at higher ns (i.e., 1000), but diverges especially at n = 5: 
+
+```
+Using the student t distribution:
+n = 5 95% CI [7.516672, 12.483328]
+n = 10 95% CI [8.569286, 11.430714]
+n = 20 95% CI [9.063971, 10.936029]
+n = 40 95% CI [9.360369, 10.639631]
+n = 80 95% CI [9.554922, 10.445078]
+n = 160 95% CI [9.687726, 10.312274]
+n = 1000 95% CI [9.875891, 10.124109]
+```
+
+
 ### 3. Bootstrapped confidence intervals.
 
 ### 4. Bayesian credible intervals. 
