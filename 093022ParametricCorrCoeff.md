@@ -184,7 +184,7 @@ At n = 13, Power = 0.999911, i.e., beta = 0.000089
 At n = 14, Power = 0.999991, i.e., beta = 0.000009
 ```
 
-Suggesting that at n>8, power will be greater than 0.8, and comparison between two correlation coefficients of 0.5 relative to null be significant. 
+Suggesting that at n>8, power will be greater than 0.8, and comparison between two correlation coefficients of 0.5 relative to null will be sufficiently powered. 
 
 
 
