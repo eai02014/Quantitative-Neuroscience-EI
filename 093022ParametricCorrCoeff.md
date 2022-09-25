@@ -116,7 +116,7 @@ This yields: rXY 95% CI [0.592303, 0.963161].
 
 #### 4. Should the value of rXY be considered significant at the p < 0.05 level, given a two-tailed test (i.e., we reject if the test statistic is too large on either tail of the null distribution) for H0: rXY = 0?
 
-Yes. Given the code below, it is possible to determine p-value of 0.000058.
+Yes. Given the code below, it is possible to determine p-value of 0.000231.
 
 ```
 %Compute t value for rXY:
@@ -124,9 +124,29 @@ t = rXY / srXY;
 
 %Use this information to compute two-tailed p-value:
 df = n-2;
-p = (1 - tcdf(t,df))/2 %compute p-value from t-distribution cdf and divide by 2 to make 2-tailed
+p = (1 - tcdf(t,df))*2; %compute p-value from t-distribution cdf and multiply by 2 to make 2-tailed
 fprintf('p-value relative to H0: r = 0 is as follows: p = %f\n',p)
 ```
+
+#### 5. Yale does the exact same study and finds that his correlation value is 0.75. Is this the same as yours? That is, evaluate H0: r = 0.75. 
+
+No. Given the code below, it is possible to determine p-value of 0.303489, suggesting our correlation values are not significantly different. 
+
+```
+%1. First compute z transformation of r0 and rXY, yielding test statistic
+%Lambda. 
+r0 = 0.75;
+zr0 = 0.5 * log((1+r0)/(1-r0));
+zrXY = 0.5 * log((1+rXY)/(1-rXY));
+Lambda = (zrXY-zr0)/sqrt(1/(n-3));
+df = n-2;
+
+%2. Plug into tcdf to determine p value
+p = (1 - tcdf(Lambda,df))*2; %compute p-value from t-distribution cdf and multiply by 2 to make 2-tailed
+fprintf('p-value relative to H0: r = 0.75 is as follows: p = %f\n',p)
+
+```
+
 
 
 
