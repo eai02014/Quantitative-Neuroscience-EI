@@ -147,7 +147,7 @@ fprintf('p-value relative to H0: r = 0.75 is as follows: p = %f\n',p)
 
 ```
 
-
+#### 6. Finally, calculate the statistical power and sample size needed to reject H0: r = 0 when r >= 0.5. 
 
 
 
