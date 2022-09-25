@@ -2,7 +2,7 @@
 
 *In this exercise we will run through an example of correcting for multiple comparisons with both the Benjamini-Hochberg procedure and the more conservative Bonferroni correction.*
 
-*First, simulate multiple (say, 1000) t-tests comparing two samples with equal means and standard deviations, and save the p-values. Obviously, at p<0.05 we expect that ~5% of the simulations to yield a "statistically significant" result (of rejecting the NULL hypothesis that the samples come from distributions with equal means).*
+### First, simulate multiple (say, 1000) t-tests comparing two samples with equal means and standard deviations, and save the p-values. Obviously, at p<0.05 we expect that ~5% of the simulations to yield a "statistically significant" result (of rejecting the NULL hypothesis that the samples come from distributions with equal means).
 
 ```
 NTests = 1000; %number of t-tests I will conduct
@@ -25,7 +25,7 @@ fprintf('Number of p-values less than 0.05 = %d\n',SigPs) %print this number
 On one iteration of this code, I get the following output: 
 Number of p-values less than 0.05 = 46
 
-*Second, once you have the simulated p-values, apply both methods to address the multiple comparisons problem.*
+### Second, once you have the simulated p-values, apply both methods to address the multiple comparisons problem.
 
 #### Bonferroni
 
@@ -87,4 +87,12 @@ On a different iteration where no p-value was less than its associated critical 
 No Benjamini-Hochberg Criterion P exists
 Number of p-values significant after B-H correction = 0
 
+### Third, set the sample 1 and sample 2 means to be 1 and 2 respectively, and re-run the exercise. What do you notice? What if you make the difference between means even greater?
 
+Rerun the code above but with change in the following lines: 
+
+```
+for i = 1:NTests
+    Sample1 = normrnd(1,1,100,1); %generate Sample 1 by randomly sampling normal distribution with mean 1 and SD 1
+    Sample2 = normrnd(2,1,100,1); %generate Sample 2 using same method as sample 1, BUT WITH MEAN OF 2
+```
