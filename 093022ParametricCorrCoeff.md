@@ -147,9 +147,44 @@ fprintf('p-value relative to H0: r = 0.75 is as follows: p = %f\n',p)
 
 ```
 
-#### 6. Finally, calculate the statistical power and sample size needed to reject H0: r = 0 when r >= 0.5. 
+#### 6. Finally, calculate the statistical power and sample size needed to reject H0: r0 = 0 when r1 >= 0.5. 
 
+First, z-transform both r0 and r1. r0 will simply be 0. r1 is calculated below: 
 
+```
+r = 0.5
+rz = 0.5 * log((1+r)/(1-r));
+```
+
+For ns ranging from 4 to 14, compute: 
+1. SD, which is given by sqrt(1/(n-3)). 
+2. Power, computed using sampsizepwr function in MATLAB. 
+
+```
+for n = 4:14
+    SD = sqrt(1/(n-3)); %SD for z-transformed r values is given by this formula
+    Power = sampsizepwr('t', [0,SD],rz,[],n);
+    fprintf('At n = %d, Power = %f, i.e., beta = %f\n', n, Power, 1-Power)
+end
+```
+
+Doing this, we get the following output: 
+
+```
+At n = 4, Power = 0.123936, i.e., beta = 0.876064
+At n = 5, Power = 0.268162, i.e., beta = 0.731838
+At n = 6, Power = 0.469630, i.e., beta = 0.530370
+At n = 7, Power = 0.680023, i.e., beta = 0.319977
+At n = 8, Power = 0.844479, i.e., beta = 0.155521
+At n = 9, Power = 0.940535, i.e., beta = 0.059465
+At n = 10, Power = 0.982407, i.e., beta = 0.017593
+At n = 11, Power = 0.996019, i.e., beta = 0.003981
+At n = 12, Power = 0.999316, i.e., beta = 0.000684
+At n = 13, Power = 0.999911, i.e., beta = 0.000089
+At n = 14, Power = 0.999991, i.e., beta = 0.000009
+```
+
+Suggesting that at n>8, power will be greater than 0.8, and comparison between two correlation coefficients of 0.5 relative to null be significant. 
 
 
 
