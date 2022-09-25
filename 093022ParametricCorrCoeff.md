@@ -69,7 +69,7 @@ rXY and rYX with built-in corrcoef:
 %Using corrcoef
 MLrXY = corrcoef(x,y);
 fprintf('rXY using corrcoef = %f\n',MLrXY(1,2))
-fprintf('rYX using corrcoef = %f\n',MLrYX(2,1))
+fprintf('rYX using corrcoef = %f\n',MLrXY(2,1))
 ```
 
 This code yields the following output: 
