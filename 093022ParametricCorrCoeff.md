@@ -81,3 +81,40 @@ rXY using corrcoef = 0.870355
 rYX using corrcoef = 0.870355
 ```
 They are all the same. 
+
+#### 3. What is standard error of rXY? What are the 95% confidence intervals computed from the standard error? 
+
+Standard error of rXY can be computed as follows: 
+
+```
+srXY = sqrt((1-(rXY^2))/(n-2)); %from formula in tutorial
+fprintf('Standard error of rXY = %f\n',srXY)
+```
+This yields: Standard error of rXY = 0.155719.
+
+95% confidence intervals can be computed as follows: 
+
+```
+%1. Take Fisher transformation of r:
+zrXY = 0.5 * log((1+rXY)/(1-rXY)); %note to self: log(X) in matlab returns natural logarithm (i.e., ln) of X
+
+%2. Compute its standard deviation as: 
+szrXY = sqrt(1/(n-3));
+
+%3. Compute confidence intervals in this z-space as: 
+zcriterion = 1.96; %for 95% confidence interval
+UpperzrXY = zrXY + (zcriterion*szrXY);
+LowerzrXY = zrXY - (zcriterion*szrXY);
+
+%4. Then translate each z value back to r as: 
+CIUpper = (exp(2*UpperzrXY) -1)/(exp(2*UpperzrXY) +1);
+CILower = (exp(2*LowerzrXY) -1)/(exp(2*LowerzrXY) +1);
+fprintf('rXY 95%% CI [%f, %f]\n',CILower,CIUpper)
+```
+
+This yields: rXY 95% CI [0.592303, 0.963161].
+
+
+
+
+
