@@ -89,10 +89,18 @@ Number of p-values significant after B-H correction = 0
 
 ### Third, set the sample 1 and sample 2 means to be 1 and 2 respectively, and re-run the exercise. What do you notice? What if you make the difference between means even greater?
 
-Rerun the code above but with change in the following lines: 
+Rerun the code, but with two changes: 
+
+1. Sample "Sample2" mean from a normal distribution with a mu of 2. 
 
 ```
 for i = 1:NTests
     Sample1 = normrnd(1,1,100,1); %generate Sample 1 by randomly sampling normal distribution with mean 1 and SD 1
     Sample2 = normrnd(2,1,100,1); %generate Sample 2 using same method as sample 1, BUT WITH MEAN OF 2
+```
+
+2. Use FDR in B-H correction of 0.05, as recommended. 
+
+```
+FDR = 0.05;
 ```
