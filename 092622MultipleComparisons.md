@@ -104,3 +104,60 @@ for i = 1:NTests
 ```
 FDR = 0.05;
 ```
+
+When I re-ran this code, I realized my Benjamini-Hochberg code did not account for a situation in which all p-values were less than their associated critical values. I added the following code to account for this: 
+
+```
+%find largest P-value that is smaller than its associated critical value
+for i = 1:NTests
+    %following if loop prints the P-value before the first P that is
+    %greater than or equal to its associated critical value
+    if BHPs(i,2) >= BHPs(i,3) && i-1 ~= 0 
+        fprintf('Benjamini-Hochberg Criterion P = %f\n at FDR = %f\n',BHPs(i-1,2),FDR)
+        BHCritP = BHPs(i-1,2);
+        BHCritPExists = true;
+        break
+    end
+
+    %if no P-value is smaller than its associated critical value, forego
+    %B-H correction
+    if BHPs(i,2) >= BHPs(i,3) && i-1 == 0
+        fprintf('No Benjamini-Hochberg Criterion P exists\n')
+        BHCritPExists = false;
+        break
+    end
+
+    %if all P-values are smaller than their associated critical value, do
+    %B-H correction based on the largest P value
+    if BHPs(NTests,2) < BHPs(NTests,3)
+        fprintf('Benjamini-Hochberg Criterion P = %f\n at FDR = %f\n',BHPs(NTests,2),FDR)
+        BHCritP = BHPs(NTests,2);
+        BHCritPExists = true;
+        break
+    end
+end
+```
+
+This yields the following output: 
+
+```
+Number of p-values less than 0.05 = 1000
+Number of p-values less than Bonferroni-corrected threshold (0.000050) = 996
+Benjamini-Hochberg Criterion P = 0.000552
+ at FDR = 0.050000
+Number of p-values less than Benjamini-Hochberg threshold = 1000
+```
+
+In this case, I am noticing that all my p-values are significant even following Benjamini-Hochberg correction, but some are not significant following Bonferroni correction. In other, words, Bonferroni correction in 4/1000 cases concludes that no significant difference exists when there actually is one (false negative), whereas Benjamini-Hochberg did not do this on the present iteration.
+
+If I sample items in Sample2 from a normal distribution with a mean of 3 instead of 2, I get the following output: 
+
+```
+Number of p-values less than 0.05 = 1000
+Number of p-values less than Bonferroni-corrected threshold (0.000050) = 1000
+Benjamini-Hochberg Criterion P = 0.000000
+ at FDR = 0.050000
+Number of p-values less than Benjamini-Hochberg threshold = 1000
+```
+Here, all p-values are less than the Bonferroni corrected threshold. 
+
