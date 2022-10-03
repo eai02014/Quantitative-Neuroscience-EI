@@ -85,4 +85,25 @@ Yields the following graph:
 
 ![PSet8](https://user-images.githubusercontent.com/112706184/193488198-d64045cc-d959-4be6-9000-2389678c13a8.jpg)
 
+#### 3. Can you reject H0: b = 0? 
+Use fitlm function to compute standard error of the slope b: 
+
+```
+LinReg = fitlm(Age,WingLength,"linear");
+SEb = LinReg.Coefficients{2,2}; %call standard error of the slope from this analysis
+t = b/SEb; %find value in t distribution corresponding to the slope and its standard error
+df = n - 2;
+p = tcdf(t,df,"upper")*2; %use T distribution CDF to compute 2-tailed p-value. 
+fprintf('p = %d.\n',p)
+```
+p = 3.009743e-09.
+
+Based on this p value, we can reject the null hypothesis that b = 0. 
+
+
+
+
+
+
+
 
