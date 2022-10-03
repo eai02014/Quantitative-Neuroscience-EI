@@ -135,7 +135,7 @@ This generates the following plot:
 
 #### 5. Calculate R<sup>2</sup> (coefficient of determination)
 
-Since this is not a multiple regression but just linear regression, R<sup>2</sup> = r<sup>2</sup> = correlation coefficient. 
+Since this is not a multiple regression but just linear regression, R<sup>2</sup> = r<sup>2</sup> = correlation coefficient squared. 
 
 ```
 R = corrcoef(Age,WingLength); %compute correlation coefficient
@@ -180,4 +180,62 @@ fprintf('Pearson''s r using equation = %f\n',rXY)
 
 Pearson's r using equation = 0.981520.
 
+#### 7. Add some noise to the data and see how the regression changes. 
 
+I will add some noise randomly drawn from a Gaussian with mu = 0, sigma = 1 and add it to Wing Length.
+
+```
+Noise = normrnd(0,1,n,1);
+NoisyWingLength = WingLength + Noise;
+```
+
+I will use fitlm instead of going through the whole formula to compute slope and intercept. 
+
+```
+NoisyLinReg = fitlm(Age,NoisyWingLength,"linear");
+fprintf('This yields a slope b = %f with p value p = %f.\n',NoisyLinReg.Coefficients{"x1","Estimate"},NoisyLinReg.Coefficients{"x1","pValue"})
+```
+
+This yields a slope b = 0.263143 with p value p = 0.006851.
+
+I will superimpose plots of the noisy regression on top of the previous one. 
+
+```
+%Compute CI of Noisyb
+Noisyb = NoisyLinReg.Coefficients{"x1","Estimate"};
+Noisya = NoisyLinReg.Coefficients{"(Intercept)","Estimate"};
+NoisySEb = NoisyLinReg.Coefficients{"x1","SE"};
+Denom = 0;
+for i = 1:13
+    Denom = Denom + ((Age(i) - AgeAvg)^2);
+end
+NoisyCI95Upper = Noisyb + tinv(0.975,n-2) * sqrt((NoisyLinReg.MSE)/Denom);
+NoisyCI95Lower = Noisyb + tinv(0.025,n-2) * sqrt((NoisyLinReg.MSE)/Denom);
+
+%For every value of Age, compute the confidence interval of Noisy Wing Length
+AgeTheoretical = [2:0.1:18]';
+NoisyWingLength95Upper = AgeTheoretical*NoisyCI95Upper + Noisya;
+NoisyWingLength95Lower = AgeTheoretical*NoisyCI95Lower + Noisya;
+
+%plot
+hold off
+scatter(Age,WingLength,"red");
+title('Plot of Age vs. Wing Length (red) or Noisy Wing Length (blue)');
+xlabel('Age (years)');
+ylabel('Wing Length (cm)');
+hold on
+cleanregline = refline(b,a);
+cleanregline.Color = 'r';
+plot(AgeTheoretical,WingLength95Upper,':','Color','r');
+plot(AgeTheoretical,WingLength95Lower,':','Color','r');
+hold on
+scatter(Age,NoisyWingLength,"blue");
+cleanregline = refline(Noisyb,Noisya);
+cleanregline.Color = 'b';
+plot(AgeTheoretical,NoisyWingLength95Upper,':','Color','b');
+plot(AgeTheoretical,NoisyWingLength95Lower,':','Color','b');
+```
+
+This generates the following plot (different on each instance depending on noise): 
+
+![PSet8noise](https://user-images.githubusercontent.com/112706184/193497678-7b408a12-5584-469c-a455-4b9374b69ce8.jpg)
